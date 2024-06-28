@@ -1,1 +1,71 @@
-e
+
+using System;
+using System.Linq;
+
+namespace Integer_extension;
+
+
+
+class Int
+{
+    public string value {get; set;}
+	
+	
+	public static Int plus(Int a, Int b)
+	{
+	    int n = a.value.Length;
+		int m = b.value.Length;
+		
+		
+		string a_ = a.value;
+		string b_ = b.value;
+				
+		if(n >= m)
+		{
+		    for(int i = 0; i < n-m; i++)
+			    b_ = "0" + b_;
+		}
+		else
+		{
+		    for(int i = 0; i < m-n; i++)
+			   a_ = "0" + a_;
+		}
+		
+		
+		if(int.Parse(a.value[0].ToString()) + int.Parse(b.value[0].ToString()) > 9)
+		{
+			a_ = "0" + a_;
+			b_ = "0" + b_;
+		}
+		
+		
+		string result = "";
+		int remembered = 0;
+		int number;
+		
+		for(int i = a_.Length - 1; i >= 0; i--)
+		{
+		    number = int.Parse($"{a_[i]}") + int.Parse($"{b_[i]}") + remembered;
+			if(number > 9)
+			    remembered = 1;
+			else
+			    remembered = 0;
+			
+		    result = $"{number.ToString()[number.ToString().Length - 1]}" + result;
+		}
+		
+		return new Int() { value = result };
+	}
+}
+
+
+
+public static class Program
+{
+	public static void Main()
+	{
+        Int a = new Int(){ value = "9999999999991" };
+		Int b = new Int(){ value = "2999999999999999999" };
+        Console.WriteLine(Int.plus(a, b).value);
+    }
+}
