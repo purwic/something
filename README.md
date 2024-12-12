@@ -1,16 +1,23 @@
-CREATE TABLE Products
-(
-    Id SERIAL PRIMARY KEY,
-    ProductName VARCHAR(30) NOT NULL,
-    Manufacturer VARCHAR(20) NOT NULL,
-    ProductCount INTEGER DEFAULT 0,
-    Price NUMERIC
-);
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
-INSERT INTO Products (ProductName, Manufacturer, ProductCount, Price)
-VALUES
-('iPhone X', 'Apple', 3, 36000),
-('iPhone 8', 'Apple', 2, 41000),
-('Galaxy S9', 'Samsung', 2, 46000),
-('Galaxy S8 Plus', 'Samsung', 1, 56000),
-('Desire 12', 'HTC', 5, 28000);
+const width = canvas.width;
+const height = canvas.height;
+
+// Создаем пустой буфер для пикселей
+const imageData = ctx.createImageData(width, height);
+const pixels = imageData.data; // Uint8ClampedArray
+
+// Задаем цвет пикселей (RGBA)
+for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+        const index = (y * width + x) * 4; // Индекс пикселя
+        pixels[index] = x % 255; // Красный канал
+        pixels[index + 1] = y % 255; // Зеленый канал
+        pixels[index + 2] = 128; // Синий канал
+        pixels[index + 3] = 255; // Прозрачность
+    }
+}
+
+// Отрисовываем буфер
+ctx.putImageData(imageData, 0, 0);
